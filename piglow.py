@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from time import sleep
 from PyGlow import PyGlow, ARM_LED_LIST, BOTH
 
 #reset the colors to zero brightness
@@ -42,11 +43,17 @@ WHITE = [6, 12, 18]
 
 #functions
 def slow_pulse_piglow(color):
-    piglow = PyGlow(brightness=PULSE_BRIGHTNESS, pulse=True, speed=5000, pulse_dir=BOTH)
+    piglow = PyGlow(brightness=PULSE_BRIGHTNESS, pulse=True, speed=1000, pulse_dir=BOTH)
     piglow.set_leds(color).update_leds()
 
 #cycle through the colors with a slow pulse
 try:
-    map(slow_pulse_piglow, [RED, ORANGE, YELLOW, GREEN, BLUE, WHITE])
+    #map(slow_pulse_piglow, [RED, ORANGE, YELLOW, GREEN, BLUE, WHITE])
+    while True:
+        for x in range(1,19)+range(18,0,-1):
+            piglow.set_leds([x],100).update_leds()
+            sleep(0.01)
+            piglow.set_leds([x],0).update_leds()
+            sleep(0.05)
 except KeyboardInterrupt:
     piglow.all(0)
